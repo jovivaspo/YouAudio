@@ -1,6 +1,6 @@
 const categories = {
   trending: null,
-  films: 1,
+  animation: 1,
   autos: 2,
   music: 10,
   animals: 15,
