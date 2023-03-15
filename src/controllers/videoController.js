@@ -31,6 +31,7 @@ videoController.search = async (req, res, next) => {
 videoController.category = async (req, res, next) => {
   try {
     const { category } = req.params;
+    console.log(category)
     const file = await readFile(
       path.resolve(__dirname, `../videos/${category}.json`),
       "utf8"

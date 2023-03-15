@@ -2,7 +2,7 @@ const categories = {
   trending: null,
   films: 1,
   autos: 2,
-  music: 20,
+  music: 10,
   animals: 15,
   sports: 17,
   movies: 30,

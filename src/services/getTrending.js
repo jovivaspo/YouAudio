@@ -4,10 +4,10 @@ const getTrending = async (id) => {
   let uri;
   if (!id) {
     uri =
-      "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&regionCode=es&chart=mostPopular&maxResults=16&key=" +
+      "https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&regionCode=ES&chart=mostPopular&maxResults=16&key=" +
       config.API_KEY_YT;
   } else {
-    uri = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&regionCode=es&chart=mostPopular&maxResults=16&videoCategoryId=${id}&key=${config.API_KEY_YT}`;
+    uri = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&regionCode=ES&chart=mostPopular&maxResults=16&videoCategoryId=${id}&key=${config.API_KEY_YT}`;
   }
   try {
     const results = await fetch(uri);
@@ -18,5 +18,6 @@ const getTrending = async (id) => {
     console.log("Error al realizar la petición");
   }
 };
+
 
 module.exports = getTrending;

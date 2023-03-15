@@ -5,8 +5,9 @@ const checkVideos = require("./services/checkVideos");
 
 const app = express();
 
-//ADMIN
+//CHECKING LAST VIDEOS
 checkVideos();
+
 
 //SETTINGS
 app.set("port", config.PORT || 8001);

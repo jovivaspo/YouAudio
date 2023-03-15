@@ -3,11 +3,11 @@ const path = require("path");
 const fs = require("fs");
 const getTrending = require("./getTrending");
 const categories = require("../helpers/categories");
-const config = require("../config");
+
 
 const createFile = async (category) => {
   try {
-    const data = await getTrending(config[category]);
+    const data = await getTrending(categories[category]);
     data.createdAt = new Date();
     await writeFile(
       path.resolve(__dirname, `../videos/${category}.json`),
