@@ -31,7 +31,7 @@ videoController.search = async (req, res, next) => {
 videoController.category = async (req, res, next) => {
   try {
     const { category } = req.params;
-    console.log(category)
+    console.log(category);
     const file = await readFile(
       path.resolve(__dirname, `../videos/${category}.json`),
       "utf8"
@@ -86,13 +86,19 @@ videoController.playlist = async (req, res, next) => {
 
     const ids = [...new Set(listOfIds)];
 
-    console.log(ids);
+    const playlists = (
+      await Promise.all(
+        ids.map(async (id) => {
+          try {
+            return await ytpl(id);
+          } catch (error) {
+            console.log(error);
+          }
+        })
+      )
+    ).filter((el) => el);
 
-    const playlists = await Promise.all(
-      ids.map(async (id) => {
-        return await ytpl(id);
-      })
-    );
+    // console.log(playlists);
 
     if (playlists.length === 0) {
       return res.status(404).json({ error: "No se han encontrado playlists" });
