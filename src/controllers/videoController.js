@@ -2,6 +2,7 @@ const youtube = require("scrape-youtube");
 const { readFile } = require("fs/promises");
 const path = require("path");
 const ytpl = require("ytpl");
+const ytdl = require("ytdl-core");
 
 const videoController = {};
 
@@ -108,6 +109,43 @@ videoController.playlist = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Error en la búsqueda" });
+  }
+};
+
+videoController.getVideo = async (req, res, next) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ error: "Petición incorrecta" });
+  }
+
+  try {
+    const info = await ytdl.getInfo(id);
+    const audioFormats = ytdl.filterFormats(info.formats, "audioonly");
+    if (audioFormats.length === 0) {
+      return res.status(500).json({ error: "Error al convertir el archivo" });
+    }
+    const relatedVideos = info["related_videos"];
+
+    console.log(info.videoDetails);
+
+    const videoDetails = {
+      title: info.videoDetails.title,
+      duration: info.videoDetails.lengthSeconds,
+      views: info.videoDetails.viewCount,
+      date: info.videoDetails.publishDate,
+      channelId: info.videoDetails.channelId,
+      channel: info.videoDetails.author.name,
+      channelImg: info.videoDetails.author.thumbnails[0],
+      thumbnails: info.videoDetails.thumbnails,
+      url: info.videoDetails.video_url,
+      id: info.videoDetails.videoId,
+    };
+
+    return res.json({ videoDetails, relatedVideos });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Algo salió mal..." });
   }
 };
 
