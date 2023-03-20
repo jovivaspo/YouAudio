@@ -68,7 +68,7 @@ videoController.playlist = async (req, res, next) => {
   try {
     const { name } = req.params;
 
-    const page = await fetch(`https://www.youtube.com/@${name}/playlists`);
+    const page = await fetch(`https://www.youtube.com/${name}/playlists`);
 
     const html = await page.text();
 
@@ -112,7 +112,7 @@ videoController.playlist = async (req, res, next) => {
   }
 };
 
-videoController.getVideo = async (req, res, next) => {
+videoController.getInfoVideo = async (req, res, next) => {
   const { id } = req.params;
 
   if (!id) {
@@ -121,13 +121,8 @@ videoController.getVideo = async (req, res, next) => {
 
   try {
     const info = await ytdl.getInfo(id);
-    const audioFormats = ytdl.filterFormats(info.formats, "audioonly");
-    if (audioFormats.length === 0) {
-      return res.status(500).json({ error: "Error al convertir el archivo" });
-    }
-    const relatedVideos = info["related_videos"];
 
-    console.log(info.videoDetails);
+    const relatedVideos = info["related_videos"];
 
     const videoDetails = {
       title: info.videoDetails.title,
@@ -137,12 +132,43 @@ videoController.getVideo = async (req, res, next) => {
       channelId: info.videoDetails.channelId,
       channel: info.videoDetails.author.name,
       channelImg: info.videoDetails.author.thumbnails[0],
+      user: info.videoDetails.author.user,
       thumbnails: info.videoDetails.thumbnails,
       url: info.videoDetails.video_url,
       id: info.videoDetails.videoId,
     };
 
     return res.json({ videoDetails, relatedVideos });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Algo salió mal..." });
+  }
+};
+
+videoController.getAudio = async (req, res, next) => {
+  const { id } = req.params;
+
+  console.log("convirtiendo el vídeo con id: ", id);
+
+  if (!id) {
+    return res.status(400).json({ error: "Petición incorrecta" });
+  }
+
+  try {
+    const info = await ytdl.getInfo(id);
+    const audioFormats = ytdl.filterFormats(info.formats, "audioonly");
+
+    if (audioFormats.length === 0) {
+      return res.status(500).json({ error: "Imposible convertir el archivo" });
+    }
+
+    const audioStream = ytdl.downloadFromInfo(info, {
+      format: audioFormats[0],
+    });
+
+    res.setHeader("Content-Type", "audio/mpeg");
+
+    return audioStream.pipe(res);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Algo salió mal..." });

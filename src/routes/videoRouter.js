@@ -11,6 +11,8 @@ router.get("/channel/:id", videoController.channel);
 
 router.get("/playlist/:name", videoController.playlist);
 
-router.get("/:id", videoController.getVideo);
+router.get("/info/:id", videoController.getInfoVideo);
+
+router.get("/:id", videoController.getAudio);
 
 module.exports = router;
