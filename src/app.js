@@ -16,7 +16,7 @@ app.set("port", config.PORT || 8001);
 //MIDDLEWARE
 app.use(
   cors({
-    origin: ["http://localhost:8000", "https://you-audio.vercel.app", "https://you-audio-git-main-jovivaspo.vercel.app","https://you-audio-2tmucbq7i-jovivaspo.vercel.app"],
+    origin: ["http://localhost:8000", "https://you-audio.onrender.com"],
   })
 );
 
