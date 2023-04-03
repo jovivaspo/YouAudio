@@ -4,7 +4,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "scrape-youtube": "^2.3.2",
-    "ytdl-core": "^4.11.2",
+    "ytdl-core": "^4.11.3",
     "ytpl": "^2.3.0"
   },
   "devDependencies": {

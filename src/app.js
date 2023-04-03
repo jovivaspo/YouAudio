@@ -16,8 +16,7 @@ app.set("port", config.PORT || 8001);
 //MIDDLEWARE
 app.use(
   cors({
-    origin: true,
-    methods:GET
+    origin: ["http://localhost:8000"],
   })
 );
 
