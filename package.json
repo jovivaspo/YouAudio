@@ -20,5 +20,8 @@
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }
