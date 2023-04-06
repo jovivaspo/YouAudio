@@ -16,7 +16,7 @@ app.set("port", config.PORT || 8001);
 //MIDDLEWARE
 app.use(
   cors({
-    origin: ["http://localhost:8000", "https://you-audio.onrender.com","http://localhost:5173","http://youaudio.xyz", "www.http://youaudio.xyz"],
+    origin: ["http://localhost:8000", "https://you-audio.onrender.com","http://localhost:5173","http://youaudio.xyz", "www.http://youaudio.xyz", "https://youaudio.xyz", ],
   })
 );
 
