@@ -30,4 +30,6 @@ You can obtain a YouTube API key by following the instructions [here](https://de
 
 4. Start the application: `npm start`
 
-![YouAudio](https://res.cloudinary.com/dme5pqzrj/image/upload/f_auto/v1680524837/YouAudio_yqrtgf.jpg){height=400px}
+![YouAudio-mobile](https://res.cloudinary.com/dme5pqzrj/image/upload/f_auto/v1680524837/YouAudio_yqrtgf.jpg)
+![YouAudio-desktop](https://res.cloudinary.com/dme5pqzrj/image/upload/f_auto/v1681076481/youaudio-2_vmg1or.jpg)
+![playlists](https://res.cloudinary.com/dme5pqzrj/image/upload/f_auto/v1681076481/youaudio-3_v6cxwy.jpg)
