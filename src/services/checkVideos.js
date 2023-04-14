@@ -4,7 +4,6 @@ const fs = require("fs");
 const getTrending = require("./getTrending");
 const categories = require("../helpers/categories");
 
-
 const createFile = async (category) => {
   try {
     const data = await getTrending(categories[category]);
@@ -20,37 +19,41 @@ const createFile = async (category) => {
 };
 
 const checkVideos = async () => {
-  /*SE COMPRUEBA SOLO SI EXISTE EL TRENDING PRINCIPAL*/
-  const keys = Object.keys(categories);
-  if (!fs.existsSync(path.resolve(__dirname, "../videos/trending.json"))) {
-    console.log("El archivo no existe, se creará a continuación...");
+  try {
+    /*SE COMPRUEBA SOLO SI EXISTE EL TRENDING PRINCIPAL*/
+    const keys = Object.keys(categories);
+    if (!fs.existsSync(path.resolve(__dirname, "../videos/trending.json"))) {
+      console.log("El archivo no existe, se creará a continuación...");
+      await Promise.all(
+        keys.map(async (key) => {
+          await createFile(key);
+        })
+      );
+      return console.log("Archivos creados");
+    }
+
+    const file = await readFile(
+      path.resolve(__dirname, "../videos/trending.json"),
+      "utf-8"
+    );
+
+    const fileJson = JSON.parse(file);
+    const hours =
+      (new Date().getTime() - new Date(fileJson.createdAt).getTime()) / 3600000;
+
+    console.log(hours);
+
+    if (hours < 24) return console.log("No han pasado 24 horas");
+
     await Promise.all(
       keys.map(async (key) => {
         await createFile(key);
       })
     );
-    return console.log("Archivos creados");
+    return console.log("Archivos actualizados");
+  } catch (error) {
+    console.log(error);
   }
-
-  const file = await readFile(
-    path.resolve(__dirname, "../videos/trending.json"),
-    "utf-8"
-  );
-
-  const fileJson = JSON.parse(file);
-  const hours =
-    (new Date().getTime() - new Date(fileJson.createdAt).getTime()) / 3600000;
-
-  console.log(hours);
-
-  if (hours < 24) return console.log("No han pasado 24 horas");
-
-  await Promise.all(
-    keys.map(async (key) => {
-      await createFile(key);
-    })
-  );
-  return console.log("Archivos actualizados");
 };
 
 module.exports = checkVideos;
